@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserauthService {
-
   api = environment.url;
   _user: any;
-  constructor(private http: HttpClient) { 
-  }
-
+  constructor(private http: HttpClient) {}
 
   getUserLogin(value) {
-    return this.http.post(`${this.api}/api/user/login`,value);
+    return this.http.post(`${this.api}/api/user/login`, value);
   }
 
   getUserLogout() {
@@ -23,7 +20,7 @@ export class UserauthService {
   }
 
   getUserRegister(value) {
-    return this.http.post(`${this.api}/user/register`,value);
+    return this.http.post(`${this.api}/user/register`, value);
   }
 
   getState() {
@@ -31,7 +28,7 @@ export class UserauthService {
   }
 
   postState(value) {
-    return this.http.post(`${this.api}/state/create`,value);
+    return this.http.post(`${this.api}/state/create`, value);
   }
 
   getDistrict() {
@@ -39,36 +36,36 @@ export class UserauthService {
   }
 
   postDistrict(value) {
-    return this.http.post(`${this.api}/district/create`,value);
+    return this.http.post(`${this.api}/district/create`, value);
   }
 
   getChild(value) {
     return this.http.get<any[]>(`${this.api}/child/get-all-child`, {
-      params :value
+      params: value,
     });
   }
   getChildByDistrict(district_id) {
-    return this.http.get(`${this.api}/child/get-child-by-district`,{
+    return this.http.get(`${this.api}/child/get-child-by-district`, {
       params: {
-        district_id : district_id
-      }
-    })
+        district_id: district_id,
+      },
+    });
   }
 
   getDistrictByState(state_id) {
     console.log(state_id);
-    return this.http.get<any[]>(`${this.api}/district/get-district-by-state`,{
+    return this.http.get<any[]>(`${this.api}/district/get-district-by-state`, {
       params: {
-        state_id : state_id
-      }
-    })
+        state_id: state_id,
+      },
+    });
   }
   postChild(value) {
-    return this.http.post(`${this.api}/child/create`,value);
+    return this.http.post(`${this.api}/child/create`, value);
   }
 
-  registerUser(value):Observable<any> {
-    return this.http.post<any>(`${this.api}/api/user/register`,value);
+  registerUser(value): Observable<any> {
+    return this.http.post<any>(`${this.api}/api/user/register`, value);
   }
 
   setUser(value) {
@@ -81,10 +78,18 @@ export class UserauthService {
   }
 
   getUserByToken(token) {
-    return this.http.get(`${this.api}/user/get-user-by-token`,{
+    return this.http.get(`${this.api}/user/get-user-by-token`, {
       params: {
-        token : token
-      }
-    })
+        token: token,
+      },
+    });
+  }
+  getNotifications<T>(email: string): Observable<T> {
+    console.log('Notification called' + email);
+    return this.http.get<T>(`${this.api}/api/user/notifications`, {
+      params: {
+        email: email,
+      },
+    });
   }
 }

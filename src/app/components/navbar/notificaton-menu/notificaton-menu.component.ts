@@ -1,30 +1,68 @@
-import { isNgTemplate } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { UserauthService } from 'src/app/services/userauth.service';
+import { Observable, Subscription } from 'rxjs';
+import { flatMap, map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { differenceInDays } from 'date-fns';
+
+interface notificationData {
+  productName: string;
+  expiry: string | number;
+}
 
 @Component({
   selector: 'app-notificaton-menu',
   templateUrl: './notificaton-menu.component.html',
-  styleUrls: ['./notificaton-menu.component.css']
+  styleUrls: ['./notificaton-menu.component.css'],
 })
-export class NotificatonMenuComponent implements OnInit {
+export class NotificatonMenuComponent implements OnInit, OnDestroy {
+  response = ['test'];
 
- 
-response= ["test" ]
- 
- item={
-  description:"test discription",
-  email:"test email"
- }
-//get the number of new messages
- counts:number =  Object.keys(this.item).length
- 
-  constructor() { }
+  email$: Observable<{ emailAddress: string }>;
+  notificaton$: Observable<notificationData[]>;
+  notifications: notificationData[] = [];
+  counts = 0;
+  subscription$: Subscription;
+  email: string;
 
-  ngOnInit(): void {
-    
+  constructor(
+    private _userService: UserauthService,
+    private _http: HttpClient
+  ) {
+    this.email$ = this._http.get<{ emailAddress: string }>(
+      `${environment.url}/api/user/get-user-by-token`,
+      {}
+    );
+  }
+  onClickCount(): void {
+    this.counts = 0;
   }
 
-
-  
-
+  ngOnInit(): void {
+    this.notificaton$ = this.email$.pipe(
+      flatMap(({ emailAddress: email }) => {
+        return this._userService.getNotifications<notificationData[]>(email);
+      }),
+      map((value) => {
+        value.forEach((obj) => {
+          const difference = differenceInDays(new Date(obj.expiry), new Date());
+          obj.expiry = difference;
+        });
+        return value;
+      })
+    );
+    this.subscription$ = this.notificaton$.subscribe((res) => {
+      res.forEach((obj) => {
+        if (obj.expiry <= 3) {
+          console.log(obj);
+          this.notifications.push(obj);
+        }
+      });
+      this.counts = this.notifications.length;
+    });
+  }
+  ngOnDestroy(): void {
+    this.subscription$.unsubscribe();
+  }
 }

@@ -1,5 +1,4 @@
-
-  <!-- <ul>
+<!-- <ul>
     <li><a href="#home">Home</a></li>
     <li><a href="#news">News</a></li>
     <li class="dropdown">
@@ -11,45 +10,79 @@
       </div> 
     </li>
   </ul> -->
-  
-  <div class="profile-image-section dropdown">
-    <a class="menu-custom-drp dropdown-toggle" data-toggle="dropdown"><i class="fa fa-10x fa-bell" aria-hidden="true"></i>
-    </a>  
-    <span class="badge badge-danger">{{counts}}</span>
-      <div class="dropdown-menu list-custom">
-        <p class="title-name">Notification</p>      
-        <div class="row cutom-rw"> 
-          <div class="col-md-6"> 
-            <p class="unread">{{counts > 0 ? counts : 'No'}} Unread </p>
+
+<div class="profile-image-section dropdown">
+  <a
+    (click)="onClickCount()"
+    class="menu-custom-drp dropdown-toggle"
+    data-toggle="dropdown"
+    ><i class="fa fa-10x fa-bell" aria-hidden="true"></i>
+  </a>
+  <span (click)="onClickCount()" class="badge badge-danger">{{ counts }}</span>
+  <div class="dropdown-menu list-custom">
+    <p class="title-name">Notification</p>
+    <div class="row cutom-rw">
+      <div class="col-md-6">
+        <p class="unread">{{ counts > 0 ? counts : "No" }} Unread</p>
+      </div>
+      <div class="col-md-6">
+        <!-- <button type="button" class="btn btn-default allready" ng-click="notifyReaded('','all')">Mark all as read</button>   -->
+      </div>
+    </div>
+    <div *ngFor="let notification of notifications">
+      <a ng-click="notifyReaded(item.id,'single')">
+        <div
+          class="row cutom-rw2"
+          ng-repeat="item in dataObject"
+          ng-if="item.is_read == 0"
+        >
+          <div class="col-md-2">
+            <i ng-show="item.is_read == 0" aria-hidden="true"></i>
+            <img
+              src="https://picsum.photos/536/354"
+              class="image-icon"
+              alt="Girl in a jacket"
+            />
           </div>
-          <div class="col-md-6"> 
-            <!-- <button type="button" class="btn btn-default allready" ng-click="notifyReaded('','all')">Mark all as read</button>   -->
-          </div>        
+          <div
+            ng-click="myStyle={'color':black}"
+            ng-style="myStyle"
+            class="col-md-10"
+          >
+            <p class="first-line">
+              Your Subscription for {{ notification.productName }} expires in
+              {{ notification.expiry }} day
+            </p>
+            <!-- <p class="first-line">{{ notification.description }}</p> -->
+            <!-- <p class="help-text">{{ notification.expiry }}</p> -->
+            <p class="button-last">
+              <span class="yes-text"
+                ><a ng-click="notifyReaded(item.id,'single')"></a>
+              </span>
+              <span class="change-now"></span>
+            </p>
+          </div>
         </div>
-        <a ng-click="notifyReaded(item.id,'single')">
-          <div class="row cutom-rw2" ng-repeat="item in dataObject" ng-if="item.is_read==0"> 
-            <div class="col-md-2"> 
-              <i ng-show="item.is_read==0" aria-hidden="true"></i>
-              <img src="https://picsum.photos/536/354" class="image-icon" alt="Girl in a jacket">
-            </div>
-            <div ng-click="myStyle={'color':black}" ng-style="myStyle" class="col-md-10"> 
-              <p class="first-line">{{item.description}} </p> 
-              <p class="help-text">{{item.email}}</p>
-              <p class="button-last"> <span class="yes-text"><a ng-click="notifyReaded(item.id,'single')"></a> </span> <span class="change-now"></span></p>
-            </div>        
-          </div>
-        </a>
-        <!-- <p class="today-seperator">Older Notification</p> -->
-        <div class="row cutom-rw3" ng-repeat="item in dataObject" ng-if="item.is_read==1"> 
-          <div class="col-md-2"> 
-            <img src="https://picsum.photos/536/354" class="image-icon" alt="Girl in a jacket">
-          </div>
-          <div class="col-md-10"> 
-            <p class="first-line">{{item.description}}</p>
-            <p class="help-text">{{item.email}}</p>          
-          </div>        
-        </div>      
-        <p class="all-notification">Show all notification</p>
-      </div>  
+      </a>
+    </div>
+    <!-- <p class="today-seperator">Older Notification</p> -->
+    <!-- <div -->
+    <!--   class="row cutom-rw3" -->
+    <!--   ng-repeat="item in dataObject" -->
+    <!--   ng-if="item.is_read == 1" -->
+    <!-- > -->
+    <!--   <div class="col-md-2"> -->
+    <!--     <img -->
+    <!--       src="https://picsum.photos/536/354" -->
+    <!--       class="image-icon" -->
+    <!--       alt="Girl in a jacket" -->
+    <!--     /> -->
+    <!--   </div> -->
+    <!--   <div class="col-md-10"> -->
+    <!--     <p class="first-line">{{ item.description }}</p> -->
+    <!--     <p class="help-text">{{ item.email }}</p> -->
+    <!--   </div> -->
+    <!-- </div> -->
+    <p class="all-notification">Show all notification</p>
   </div>
-  
+</div>

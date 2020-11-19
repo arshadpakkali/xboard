@@ -486,8 +486,8 @@ module.exports = content.locals || {};
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/Anrahya/xboard/node_modules/@angular/material/prebuilt-themes/purple-green.css */"./node_modules/@angular/material/prebuilt-themes/purple-green.css");
-module.exports = __webpack_require__(/*! /Users/Anrahya/xboard/src/styles.css */"./src/styles.css");
+__webpack_require__(/*! /home/arshad/Documents/xboard/node_modules/@angular/material/prebuilt-themes/purple-green.css */"./node_modules/@angular/material/prebuilt-themes/purple-green.css");
+module.exports = __webpack_require__(/*! /home/arshad/Documents/xboard/src/styles.css */"./src/styles.css");
 
 
 /***/ })
